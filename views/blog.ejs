@@ -1,0 +1,37 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="/stylesheets/github.min.css" rel="stylesheet">
+    <link href="/stylesheets/header.css" rel="stylesheet">
+    <link href="/stylesheets/body.css" rel="stylesheet">
+    <link rel="stylesheet" href="/icon/style.css"></head>
+    <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+    <script >hljs.initHighlightingOnLoad();</script>
+
+    <style>
+
+
+
+
+  </style>
+
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="archive">Archive</a></li>
+        <li><a href="tags">Tags</a></li>
+        <li><a href="login">Login</a></li>
+        <li><a href="reg">Register</a></li>
+    </ul>
+</nav>
+  <div id="content">
+ <% if(success) {%>
+    <div><%=success %></div>
+    <% } %>
+    <% if(error){ %>
+    <div><%=error %></div>
+    <% } %>

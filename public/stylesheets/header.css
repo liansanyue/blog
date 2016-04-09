@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+    font-family: 'story';
+    src: url('/fonts/story.ttf');
+
+}
+body,html{
+
+    height: 100%;
+    font-size:14px;
+    font-family:"Roboto","HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+nav{
+    width: 100%;
+    overflow: hidden;
+    height: 4rem;
+    border-bottom: .1rem solid #ccc;
+
+}
+nav ul{
+    list-style-type: none;
+    float: right;
+    padding-right: 10%;
+
+
+}
+nav li,nav a{
+    display: inline-block;
+    text-align: center;
+    height: 3.9rem;
+    line-height: 3.9rem;
+
+
+    padding: 0 1.4rem;
+
+}
+nav  a{
+
+    border-bottom: .2rem solid transparent;
+    -webkit-transition:all 0.3s ease-in-out;
+    transition:all 0.3s ease-in-out;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color:#333;
+    font-family: "微软雅黑";
+}
+
+nav a:hover {
+    border-bottom: .2rem solid #000;
+    color:#ccc;
+
+}

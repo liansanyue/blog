@@ -14,7 +14,11 @@ var Post=require("../models/post.js");
 var Comment=require('../models/comment.js');
 
 module.exports=function (app){
+  app.get("/blog",function(req,res){
+    res.render('blog')
+  })
   app.get("/",function(req,res){
+    console.log(req.connection.remoteAddress);
     var page=req.query.p?parseInt(req.query.p):1;
     Post.getTen(null,page,function(err,posts,total){
       if(err){
@@ -134,7 +138,8 @@ module.exports=function (app){
   app.post("/post",function(req,res){
   //var currentUser=req.session.user;
     //console.log(currentUser.name);
-      var post=new Post(req.session.username,req.body.title,req.body.post);
+    var tags=[req.body.tag1,req.body.tag2,req.body.tag3];
+      var post=new Post(req.session.username,req.body.title,tags,req.body.post);
     post.save(function(err){
       if(err){
         req.flash('error',err);
@@ -162,11 +167,63 @@ module.exports=function (app){
   });
   app.post('/upload',checkLogin);
   app.post("/upload",function(req,res){
-    console.log(req.body.file);
+
    req.flash('success','文件上传成功');
     res.redirect('/upload')
   });
+app.get('/archive',function(req,res){
+    Post.getArchive(function(err,posts){
+      if(err){
+        req.flash('error',err);
+        return res.redirect('/');
+      }
+      res.render("archive",{title:"存档",
 
+        user:req.session.user,
+        posts:posts,
+        name:req.session.username,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
+
+    })
+  })
+  app.get('/tags',function(req,res){
+    Post.getTags(function(err,posts){
+      if(err){
+        req.flash('error',err);
+        return res.redirect('/');
+      }
+
+      res.render("tags",{title:"标签",
+
+        user:req.session.user,
+        posts:posts,
+        name:req.session.username,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
+
+    })
+  })
+  app.get('/tags/:tag',function(req,res){
+    Post.getTag(req.params.tag,function(err,posts){
+      if(err){
+        req.flash('error',err);
+        return res.redirect('/');
+      }
+    console.log(posts)
+      res.render("archive",{title:"Tags:"+req.params.tag,
+
+        user:req.session.user,
+        posts:posts,
+        name:req.session.username,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
+
+    })
+  })
 app.get("/u/:name",function(req,res){
   var page=req.query.p?parseInt(req.query.p):1;
   User.get(req.params.name,function(err,user){
@@ -180,6 +237,7 @@ app.get("/u/:name",function(req,res){
         req.flash('error',error);
         return res.redirect('/');
       }
+      if(posts){
       res.render("index",{title:user.name,
         user:req.session.user,
         posts:posts,
@@ -190,6 +248,10 @@ app.get("/u/:name",function(req,res){
         success:req.flash('success').toString(),
         error:req.flash('error').toString()
       });
+      }else{
+        req.flash('error','不存在');
+        return res.redirect('back');
+      }
     })
 
   })
@@ -205,10 +267,12 @@ app.get("/u/:name",function(req,res){
       }
       Post.getOne(user.name,req.params.day,req.params.title,function(err,posts){
         if(err){
-          req.flash('error',error);
+          req.flash('error','发生错误');
           return res.redirect('/');
         }
-       console.log(posts)
+
+        if(posts){
+
         res.render('article',{
           title:user.name,
           name:req.session.username,
@@ -217,6 +281,10 @@ app.get("/u/:name",function(req,res){
           success:req.flash('success').toString(),
           error:req.flash('error').toString()
         })
+        }else{
+          req.flash('error','不存在');
+          return res.redirect('back');
+        }
       })
     })
   })
@@ -261,6 +329,7 @@ app.get("/u/:name",function(req,res){
         //  req.flash('error','没有权限');
         //  return res.redirect('back');
         //}
+        if(posts){
         res.render('edit',{
           title:'编辑',
           name:req.session.user.name,
@@ -268,14 +337,17 @@ app.get("/u/:name",function(req,res){
           user:req.session.user,
           success:req.flash('success').toString(),
           error:req.flash('error').toString()
-        })
+        })}else{
+          req.flash('error','不存在');
+          return res.redirect('back');
+        }
       })
 
   })
   app.post('/edit/:name/:day/:title',checkLogin);
   app.post("/edit/:name/:day/:title",function(req,res){
-
-    Post.update(req.session.user.name,req.params.day,req.params.title,req.body.post,function(err){
+   var tags=[req.body.tag1,req.body.tag2,req.body.tag3];
+    Post.update(req.session.user.name,req.params.day,req.params.title,tags,req.body.post,function(err){
       var url=encodeURI('/u/'+req.params.name+'/'+req.params.day+"/"+req.params.title);
       if(err){
         req.flash('error',error);
@@ -305,11 +377,31 @@ app.get("/u/:name",function(req,res){
     })
 
   })
+  app.get("/search",function(req,res){
 
+    Post.search(req.query.search,function(err,posts){
+      if(err){
+        req.flash('error',error);
+        return res.redirect('back');
+      }
+      res.render("search",{title:"search:"+req.query.search,
+
+        user:req.session.user,
+        posts:posts,
+        name:req.session.username,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
+    })
+
+  })
 //app.post('/ajax',function(req,res){
 ////测试ajax
 //  res.send("返回的数据");
 //})
+app.use(function(req,res){
+  res.render("404")
+  ;})
 }
 function checkLogin(req,res,next){
   if(!req.session.user){

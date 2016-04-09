@@ -1,16 +1,26 @@
-<%- include header %>
+<%- include blog %>
 
 <% posts.forEach(function(post,index){ %>
-<p><h2><a href="/u/<%= post.name %>/<%= post.time.date %>/<%=post.title %>"><%=post.title %></a></h2></p>
+<div class="post">
+    <img class="userlogo" src="/images/404.jpg"/>
+<p class="title"><a href="/u/<%= post.name %>/<%= post.time.date %>/<%=post.title %>"><%=post.title %></a></p>
 <p class="info">
     作者：<a href="/u/<%= post.name %>"><%=post.name %></a> |
-    日期：<%=post.time.minute %>
+    日期：<%=post.time.minute %>|
+    标签：
+    <% post.tags.forEach(function(tag,index) { %>
+    <% if(tag){ %>
+    <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>
+    <% }else{ %>
+    -<% } %>
+    <% }) %>
 </p>
-<div class="Summary">
+<div class="summary">
 <p ><%- post.post %></p>
-
 </div>
-<hr/>
+    <div class="chat"><p><span class="icon-heart-o"></span>0</p><p><span class="icon-eye"></span>0</p><p><span class="icon-bubble2"></span>0</p></div>
+</div>
+<!--<hr/>-->
 <% }) %>
 <%- include paging %>
-<%- include footer %>
+<%- include foot %>

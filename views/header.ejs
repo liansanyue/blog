@@ -4,6 +4,15 @@
     <meta charset="utf-8"/>
     <title>Blog</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!--<script src="/kindEditor/kindeditor-all-min.js"></script>-->
+    <!--<script src="/kindEditor/lang/zh-CN.js"></script>-->
+    <!--<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">-->
+    <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+    <script >hljs.initHighlightingOnLoad();</script>
+
+
 </head>
 <body>
 <header>
@@ -13,8 +22,11 @@
     <% } %>
 
 </header>
+<span><form action="/search" method="GET"><input type="text" name="search" placeholder="search"/> </form></span>
 <nav>
     <span><a title="主页" href="/">home</a></span>
+    <span><a title="存档" href="/archive">archive</a></span>
+    <span><a title="标签" href="/tags">tags</a></span>
     <% if(user){ %>
     <span><a title="发表" href="/post">post</a></span>
     <span><a title="注销" href="/logout">logout</a></span>

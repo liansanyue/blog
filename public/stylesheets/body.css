@@ -1,0 +1,73 @@
+
+#content{
+    width: 75%;
+    min-width: 900px;
+    margin: 0 auto;
+    height: 100%;
+
+
+}
+#content > .post{
+    width: 85%;
+    height: 12rem;
+    /* background-color: #00d6b2; */
+    overflow: hidden;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 3px 2px 2px #ccc;
+    border-radius: 3px;
+    margin: 10px 0;
+    padding: 1rem 5rem 1rem 3rem;
+    position: relative;
+}
+#content > .post > .userlogo{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    float: left;
+}
+.userlogo:after{
+    content: '\200B';
+    display: block;
+    clear: both;
+    height: 0;
+
+}
+.chat{
+   position: absolute;
+    right: 2rem;
+    top:2rem;
+}
+.chat p{
+
+    color: #aaaaaa;
+    font-size: 1rem;
+    margin: 1.5rem 0;
+}
+.chat span[class^="icon"]{
+    margin-right: 0.5rem;
+    cursor:pointer;
+}
+ .title{
+    margin: 1rem 12rem;
+     font-size: 2.5rem;
+
+}
+ .info{
+     margin: 0 12rem;
+     font-size: 0.8rem;
+ }
+.info a{
+    text-decoration: none;
+    color:#aaaaaa;
+}
+ .title a{
+     text-decoration: none;
+     color:#aaaaaa;
+ }
+ .summary{
+     margin: 0 12rem;
+ }
+pre *{
+    white-space:pre-wrap;
+    overflow: auto;
+}
