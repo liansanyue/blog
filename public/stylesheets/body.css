@@ -11,15 +11,20 @@
     width: 85%;
     height: 12rem;
     /* background-color: #00d6b2; */
-    overflow: hidden;
     border: 1px solid #ccc;
-    -webkit-box-shadow: 3px 2px 2px #ccc;
+    /*box-shadow: 1px -5px 2px #ccc, 3px 0px 2px #ccc, 0px -2px 2px #ccc, 0px 2px 2px #ccc;*/
+    box-shadow: 4px 3px 3px #ccc; 
     border-radius: 3px;
-    margin: 10px 0;
+    margin: 12px 0;
     padding: 1rem 5rem 1rem 3rem;
     position: relative;
+    
 }
-#content > .post > .userlogo{
+.user{
+  float: left;
+  /*position: relative;*/
+}
+ .userlogo{
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
@@ -32,6 +37,7 @@
     height: 0;
 
 }
+
 .chat{
    position: absolute;
     right: 2rem;
@@ -47,27 +53,104 @@
     margin-right: 0.5rem;
     cursor:pointer;
 }
+.post_con{
+    margin:0 12rem;
+    height: 12rem;
+    overflow: hidden;
+}
  .title{
-    margin: 1rem 12rem;
+    margin: 1rem 0;
      font-size: 2.5rem;
-
-}
- .info{
-     margin: 0 12rem;
-     font-size: 0.8rem;
+  
  }
-.info a{
-    text-decoration: none;
-    color:#aaaaaa;
-}
- .title a{
+
+  .title .icon-tag{
+    
+     font-size: 1.2rem;
+     color:#aaaaaa;
+     margin-right: 1rem
+  
+ }
+  .title a{
      text-decoration: none;
      color:#aaaaaa;
  }
+  .title a:hover{
+     color:#92BFDC;
+ }
+.infoa{
+    display: none;
+}
+ .info{
+     position: absolute;
+    
+     width: 10rem;
+     height: 10rem;
+     border-radius: 50%;
+     overflow: hidden;
+     font-size: 0.8rem;
+     text-align: center;
+     line-height: 3rem;
+     background-color: rgba(146, 191, 220, 0.73);
+     color:#eee;
+     font-weight: bolder;
+      -webkit-transform:rotateY(90deg);
+     -webkit-transition:all 0.3s ease-out;
+     transition:all 0.3s ease-in-out;  
+     
+ }
+ .user:hover .info{
+    -webkit-transform:rotateY(0deg);
+ }
+.info a{
+    text-decoration: none;
+   
+    color:#eee;
+}
+.info a:hover{
+    text-decoration: underline;
+}
+
  .summary{
-     margin: 0 12rem;
+     margin: 1rem 0;
  }
 pre *{
     white-space:pre-wrap;
     overflow: auto;
+}
+.co1,.co2{
+      display: block;
+    width: 2rem;
+    height: .6rem;
+    border-radius: .5rem;
+    background-color: rgb(146, 191, 220);
+    position: absolute;
+    right: -1rem;
+    z-index: 4;
+    box-shadow: -1px 1px 1px rgba(255,255,255,1);
+}
+.co1{
+
+    top:3rem;
+}
+.co2{
+
+    top:9rem;
+}
+.chat:after,.chat:before{
+       content: "";
+    position: absolute;
+    width: .7rem;
+    right: -1.4rem;
+    height: .7rem;
+    z-index: 1;
+    background-color: rgba(37, 34, 34, 0.57);
+    /* box-shadow: 1px 1px 1px rgb(240, 236, 236); */
+    border-radius: 50%;
+}
+.chat:after{
+ top:7rem;
+}
+.chat:before{
+ top:1rem;
 }

@@ -2,12 +2,12 @@
 
 <% posts.forEach(function(post,index){ %>
 <div class="post">
-    <img class="userlogo" src="/images/404.jpg"/>
-<p class="title"><a href="/u/<%= post.name %>/<%= post.time.date %>/<%=post.title %>"><%=post.title %></a></p>
+<div class="user">
+<img class="userlogo" src="/images/404.jpg"/>
 <p class="info">
-    作者：<a href="/u/<%= post.name %>"><%=post.name %></a> |
-    日期：<%=post.time.minute %>|
-    标签：
+    Author：<a href="/u/<%= post.name %>"><%=post.name %></a> <br/>
+    Date：<%=post.time.minute %><br/>
+    Tags：
     <% post.tags.forEach(function(tag,index) { %>
     <% if(tag){ %>
     <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>
@@ -15,12 +15,35 @@
     -<% } %>
     <% }) %>
 </p>
+	</div>
+<div class="post_con">
+	<p class="title"><span class="icon-tag"></span><a href="/u/<%= post.name %>/<%= post.time.date %>/<%=post.title %>"><%=post.title %></a></p>
+
 <div class="summary">
-<p ><%- post.post %></p>
+ <p ><%- post.post %></p>
+	</div>
 </div>
     <div class="chat"><p><span class="icon-heart-o"></span>0</p><p><span class="icon-eye"></span>0</p><p><span class="icon-bubble2"></span>0</p></div>
+    <span class="co1"></span>
+    <span class="co2"></span>
 </div>
-<!--<hr/>-->
+
 <% }) %>
+	<script>
+var content=document.getElementById('content');
+content.addEventListener("click",function(e){
+	// console.log(e.target.className)
+	// if(e.target.className=="post"){
+	// 	var posts=content.getElementsByClassName('post');
+	// 	posts.forEach(function(post,index){
+	// 		if(post==e.target)alert("yes")
+	// 	})
+
+	// }
+})
+// content.addEventListener("click",function(e){
+	
+// })
+	</script>
 <%- include paging %>
 <%- include foot %>
