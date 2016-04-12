@@ -49,7 +49,7 @@ module.exports=function (app){
   app.post('/reg',checkNotLogin);
   app.post("/reg",function(req,res){
 
-    var name=req.body.name,
+    var name=req.body.name.trim()==""? req.body.email:req.body.name.trim();
         password=req.body.password,
         password_re=req.body['password-repeat'];
     //检验用户两次输入的密码是否一致
@@ -63,11 +63,23 @@ module.exports=function (app){
     var md5=crypto.createHash('md5'),
         password=md5.update(req.body.password).digest('hex');
     var newUser=new User({
-      name:req.body.name,
+      name:req.body.name.trim()==""? req.body.email:req.body.name.trim(),
       password:password,
-      email:req.body.email
+      email:req.body.email,
+      ip:req.connection.remoteAddress
     });
-    //检查用户是否已经存在
+   // 检查用户是否已经存在
+    User.getIpUser(newUser.ip,function(err,user){
+     if(err){
+        req.flash('error',err);
+        return res.redirect('/')
+      } console.log(user.length);
+      if(user.length>19){
+       
+        req.flash('error','你已经注册过20个用户啦')
+       return res.redirect('/reg');//返回注册页
+      }
+
     User.get(newUser.name,function(err,user){
       if(err){
         req.flash('error',err);
@@ -76,8 +88,9 @@ module.exports=function (app){
       if(user){
 
         req.flash('error','用户已经存在')
-        return res.redirect('/reg');//返回注册页
+       return res.redirect('/reg');//返回注册页
       }
+    
       //如果不存在则新增用户
       newUser.save(function(err,user) {
         if(err){
@@ -91,6 +104,9 @@ module.exports=function (app){
 
       });
     });
+    })
+
+  
   });
   app.get('/login',checkNotLogin);
   app.get("/login",function(req,res){
@@ -107,7 +123,7 @@ module.exports=function (app){
         password=md5.update(req.body.password).digest('hex');
     //检查用户是否存在
     var newUser=new User({
-      name:req.body.name,
+      name:req.body.name.trim(),
       password:password,
       email:req.body.email
     });
@@ -136,10 +152,9 @@ module.exports=function (app){
   });
   app.post('/post',checkLogin);
   app.post("/post",function(req,res){
-  //var currentUser=req.session.user;
-    //console.log(currentUser.name);
-    var tags=[req.body.tag1,req.body.tag2,req.body.tag3];
-      var post=new Post(req.session.username,req.body.title,tags,req.body.post);
+
+    var tags=[req.body.tag1.trim(),req.body.tag2.trim(),req.body.tag3.trim()];
+      var post=new Post(req.session.username,req.body.title.trim(),tags,req.body.post);
     post.save(function(err){
       if(err){
         req.flash('error',err);
@@ -226,7 +241,7 @@ app.get('/archive',function(req,res){
   })
 app.get("/u/:name",function(req,res){
   var page=req.query.p?parseInt(req.query.p):1;
-  User.get(req.params.name,function(err,user){
+  User.get(req.params.name.trim(),function(err,user){
 
     if(!user){
       req.flash('error','用户不存在');
@@ -267,6 +282,7 @@ app.get("/u/:name",function(req,res){
       }
       Post.getOne(user.name,req.params.day,req.params.title,function(err,posts){
         if(err){
+
           req.flash('error','发生错误');
           return res.redirect('/');
         }
@@ -282,8 +298,8 @@ app.get("/u/:name",function(req,res){
           error:req.flash('error').toString()
         })
         }else{
-          req.flash('error','不存在');
-          return res.redirect('back');
+         res.render("404")
+          
         }
       })
     })
@@ -292,8 +308,8 @@ app.get("/u/:name",function(req,res){
     var date=new Date(),
         time=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate())+" "+date.getHours()+":"+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
     var comment={
-      name:req.body.name,
-      email:req.body.email,
+      name:req.body.name.trim(),
+      email:req.body.email.trim(),
       website:req.body.website,
       time:time,
       content:req.body.content
@@ -346,8 +362,8 @@ app.get("/u/:name",function(req,res){
   })
   app.post('/edit/:name/:day/:title',checkLogin);
   app.post("/edit/:name/:day/:title",function(req,res){
-   var tags=[req.body.tag1,req.body.tag2,req.body.tag3];
-    Post.update(req.session.user.name,req.params.day,req.params.title,tags,req.body.post,function(err){
+   var tags=[req.body.tag1.trim(),req.body.tag2.trim(),req.body.tag3.trim()];
+    Post.update(req.session.user.name.trim(),req.params.day,req.params.title.trim(),tags,req.body.post,function(err){
       var url=encodeURI('/u/'+req.params.name+'/'+req.params.day+"/"+req.params.title);
       if(err){
         req.flash('error',error);

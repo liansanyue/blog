@@ -1,8 +1,21 @@
-<%- include header %>
-
+<%- include blog %>
+    <div class="taglist">
     <% posts.forEach(function(tag,index){ %>
-    <a href="/tags/<%= tag %>"><%= tag %></a>
+     <a class="tag" href="/tags/<%= tag %>"><%= tag %></a> 
     <% }) %>
+    <span></span>
+	</div>
+	<script type="text/javascript">
+/*var tags=document.getElementsByClassName('tag');
+var i,j;
+for(i=0,j=tags.length;i<j;i++){
+	tags[i].setAttribute("style","top:"+i*10+"px")
+}*/
+(function(){
+var span=document.getElementsByTagName('span')[0]
+
+})()
 
 
+	</script>
 <%- include footer %>

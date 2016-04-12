@@ -1,23 +1,50 @@
 <br/>
-<% posts.comments.forEach(function(comment,index) { %>
-<p><a href="<%=comment.website %>"><%= comment.name %></a>
-<span class="info">回复于<%= comment.time %></span></p>
-<p><%-comment.content %></p>
-<% }) %>
-<form method="post">
+<div id="comments">
+<form method="post" id="postcomment">
     <% if(user){ %>
-    姓名：<input type="text" name="name" value="<%=user.name %>"/><br/>
-    邮箱：<input type="email" name="email" value="<%=user.email %>"/><br/>
-    网址：<input type="text" name="website" value="/u/<%=user.name %>"/><br/>
-    <% }else { %>
-    姓名：<input type="text" name="name"/><br/>
-    邮箱：<input type="email" name="email"/><br/>
-    网址：<input type="url" name="website" value="http://"/><br/>
-    <% } %>
-    <textarea name="content" rows="5" cols="80"></textarea><br/>
+   <input type="text" name="name" value="<%=user.name %>"  /><br/>
+   <input type="email" name="email" value="<%=user.email %>" /><br/>
+   <input type="text" name="website" value="/u/<%=user.name %>" /><br/>
+   <textarea name="content" rows="4"  ></textarea><br/>
     <input type="submit" value="留言"/>
+    <% }else { %>
+    <textarea  rows="5" cols="80" disabled>请先登录</textarea><br/>
+    <input  type="submit" value="留言" disabled />
+    <%  } %>
+    
 
 </form>
+
+<h4>读者评论</h4>
+<% if(posts.comments.length==0){ %>
+    <p>暂时没有评论~~~</p><br/>
+<% }else{ %>
+<% posts.comments.forEach(function(comment,index) { %>
+<div >
+<p><a href="<%=comment.website %>"><%= comment.name %></a>
+<time ><%= comment.time %></time></p>
+<p><%-comment.content %></p>
+    <% }) %></div>
+    <% } %>
+</div>
+<script type="text/javascript">
+(function(){
+var form=document.getElementById('postcomment');
+form.onsubmit=function(){
+var textarea=form.getElementsByTagName('textarea')[0];
+
+if(textarea.value.trim()==""){
+    alert("输入内容不能为空！");
+    return false;
+}
+else{
+ return true;   
+}
+
+}
+})()
+
+</script>
 <!--<button id="btn">点击</button>-->
 <!--<script>-->
     <!--var btn=document.getElementById('btn');-->

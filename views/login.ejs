@@ -1,8 +1,33 @@
-<%- include header %>
-<form method="post">
-    <label for="name">用户名：</label><input id="name"type="text" name="name"/><br/>
-    <label for="password">密码：</label><input id="password" type="password" name="password"/><br/>
-    <button type="submit">登录</button>
+<%- include blog %>
+<form method="post" class="login" id="login">
+	<p> <label for="name">Username：</label><input id="name"type="text" name="name" required/></p>
+	<p><label for="password">Password：</label><input id="password" type="password" name="password" required/></p>
+    <button type="submit">Submit</button>
 
 </form>
+<script type="text/javascript">
+(function(){
+var form=document.getElementById('login');
+var inputs=form.getElementsByTagName('input');
+var array_inputs= Array.prototype.slice.call(inputs); 
+console.log(Array.isArray(array_inputs))
+form.onsubmit=function(){
+
+var isOk=array_inputs.every(function(input,index,array){
+	if(input.value.trim()!="")return true;
+	else {return false}
+})
+if(!isOk){
+	alert("不能为空！");
+    return false;
+}
+
+
+return true;
+
+}
+})()
+
+
+</script>
 <%- include footer %>

@@ -1,12 +1,37 @@
-<%- include header %>
-<form method="post">
-    <label for="name">用户名：</label><input id="name"type="text" name="name"/><br/>
-    <label for="password">密码：</label><input id="password" type="password" name="password"/><br/>
-    <label for="password-repeat">确认密码：</label><input id="password-repeat" type="password" name="password-repeat"/><br/>
-    <label for="email">email：</label><input id="email" type="email" name="email"/><br/>
+<%- include blog %>
+<form method="post" class="login" id="reg">
+	<p><label for="name">Username:</label><br/><input id="name"type="text" name="name" required/></p>
+	<p> <label for="password">password:</label><br/><input id="password" type="password" name="password" required/></p>
+	<p><label for="password-repeat">Confirm password：<br/></label><input id="password-repeat" type="password" name="password-repeat" required/></p>
+	<p><label for="email">Email：<br/></label><input id="email" type="email" name="email" required/></p>
 
 
-    <button type="submit">注册</button>
+    <button type="submit">Register</button>
 
 </form>
+<script type="text/javascript">
+(function(){
+var form=document.getElementById('reg');
+var inputs=form.getElementsByTagName('input');
+var array_inputs= Array.prototype.slice.call(inputs); 
+
+form.onsubmit=function(){
+
+var isOk=array_inputs.every(function(input,index,array){
+	if(input.value.trim()!="")return true;
+	else {return false}
+})
+if(!isOk){
+	alert("不能为空！");
+    return false;
+}
+
+
+return true;
+
+}
+})()
+
+
+</script>
 <%- include footer %>

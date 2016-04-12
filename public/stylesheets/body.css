@@ -1,144 +1,153 @@
-
-#content{
+#content {
     width: 75%;
     min-width: 900px;
     margin: 0 auto;
     height: 100%;
-
-
 }
-#content > .post{
+
+#content > .post {
     width: 85%;
     height: 12rem;
     /* background-color: #00d6b2; */
     border: 1px solid #ccc;
     /*box-shadow: 1px -5px 2px #ccc, 3px 0px 2px #ccc, 0px -2px 2px #ccc, 0px 2px 2px #ccc;*/
-    box-shadow: 4px 3px 3px #ccc; 
+    box-shadow: 4px 3px 3px #ccc;
     border-radius: 3px;
     margin: 12px 0;
     padding: 1rem 5rem 1rem 3rem;
     position: relative;
-    
 }
-.user{
-  float: left;
-  /*position: relative;*/
+
+.user {
+    float: left;
+    /*position: relative;*/
 }
- .userlogo{
+
+.userlogo {
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
     float: left;
 }
-.userlogo:after{
+
+.userlogo:after {
     content: '\200B';
     display: block;
     clear: both;
     height: 0;
-
 }
 
-.chat{
-   position: absolute;
+.chat {
+    position: absolute;
     right: 2rem;
-    top:2rem;
+    top: 2rem;
 }
-.chat p{
 
+.chat p {
     color: #aaaaaa;
     font-size: 1rem;
     margin: 1.5rem 0;
 }
-.chat span[class^="icon"]{
+
+.chat span[class^="icon"] {
     margin-right: 0.5rem;
-    cursor:pointer;
 }
-.post_con{
-    margin:0 12rem;
+
+.post_con {
+    margin: 0 12rem;
     height: 12rem;
+    line-height: 2rem;
     overflow: hidden;
 }
- .title{
-    margin: 1rem 0;
-     font-size: 2.5rem;
-  
- }
 
-  .title .icon-tag{
-    
-     font-size: 1.2rem;
-     color:#aaaaaa;
-     margin-right: 1rem
-  
- }
-  .title a{
-     text-decoration: none;
-     color:#aaaaaa;
- }
-  .title a:hover{
-     color:#92BFDC;
- }
-.infoa{
+.title {
+    margin: 1rem 0;
+    font-size: 2.5rem;
+}
+
+.title .icon-tag {
+    font-size: 1.2rem;
+    color: #4F3728;
+    margin-right: 1rem
+}
+
+.title a {
+    text-decoration: none;
+    color: #aaaaaa;
+}
+
+.title a:hover {
+    color: #92BFDC;
+}
+
+.infoa {
     display: none;
 }
- .info{
-     position: absolute;
-    
-     width: 10rem;
-     height: 10rem;
-     border-radius: 50%;
-     overflow: hidden;
-     font-size: 0.8rem;
-     text-align: center;
-     line-height: 3rem;
-     background-color: rgba(146, 191, 220, 0.73);
-     color:#eee;
-     font-weight: bolder;
-      -webkit-transform:rotateY(90deg);
-     -webkit-transition:all 0.3s ease-out;
-     transition:all 0.3s ease-in-out;  
-     
- }
- .user:hover .info{
-    -webkit-transform:rotateY(0deg);
- }
-.info a{
-    text-decoration: none;
-   
-    color:#eee;
+
+.info {
+    position: absolute;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    overflow: hidden;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 3rem;
+    background-color: rgba(146, 191, 220, 0.73);
+    color: #eee;
+    font-weight: bolder;
+    -webkit-transform: rotateY(90deg);
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-in-out;
 }
-.info a:hover{
+
+.user:hover .info {
+    -webkit-transform: rotateY(0deg);
+}
+
+.info a {
+    text-decoration: none;
+    color: #eee;
+}
+
+.info a:hover {
     text-decoration: underline;
 }
 
- .summary{
-     margin: 1rem 0;
- }
-pre *{
-    white-space:pre-wrap;
+.summary {
+    margin: 1rem 0;
+}
+
+pre * {
+    white-space: pre-wrap;
     overflow: auto;
 }
-.co1,.co2{
-      display: block;
+
+.co1,
+.co2 {
+    display: block;
     width: 2rem;
     height: .6rem;
     border-radius: .5rem;
     background-color: rgb(146, 191, 220);
+    /*background-color: #4F3728;*/
     position: absolute;
     right: -1rem;
     z-index: 4;
-    box-shadow: -1px 1px 1px rgba(255,255,255,1);
+    box-shadow: -1px 1px 1px rgba(255, 255, 255, 1);
 }
-.co1{
 
-    top:3rem;
+.co1 {
+    top: 3rem;
 }
-.co2{
 
-    top:9rem;
+.co2 {
+    top: 9rem;
 }
-.chat:after,.chat:before{
-       content: "";
+
+.chat:after,
+.chat:before {
+    content: "";
     position: absolute;
     width: .7rem;
     right: -1.4rem;
@@ -148,9 +157,216 @@ pre *{
     /* box-shadow: 1px 1px 1px rgb(240, 236, 236); */
     border-radius: 50%;
 }
-.chat:after{
- top:7rem;
+
+.chat:after {
+    top: 7rem;
 }
-.chat:before{
- top:1rem;
+
+.chat:before {
+    top: 1rem;
+}
+
+.prepage {
+    float: left;
+}
+
+.nextpage {
+    float: right;
+}
+
+.prepage a,
+.nextpage a {
+    color: rgb(146, 191, 220);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+article {
+    width: 85%;
+    margin: 3rem auto;
+    padding: 2rem;
+    box-shadow: 1px -1px 2px #ccc, 3px 0px 2px #ccc, -3px -2px 2px #ccc, 7px 2px 2px #ccc;
+}
+
+.instructions {
+    margin: 2rem 0;
+    border-bottom: 2px dotted #ccc;
+    line-height: 3rem;
+    font-size: 1.2rem;
+}
+
+article code,
+article pre,
+article p {
+    line-height: 2rem;
+}
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+    line-height: 3.5rem;
+}
+
+.instructions a {
+    color: rgb(146, 191, 220);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+article .posttitle {
+    line-height: 2rem;
+    font-size: 1.7rem;
+    color: #84D1DC;
+    padding: 1rem 0;
+    border-bottom: 1px dotted #ccc;
+    margin-bottom: 1rem;
+    text-align: center;
+    /*border-bottom: 1px solid */
+}
+
+#comments {
+    width: 85%;
+    margin: 0 auto;
+}
+
+#comments >div a {
+    color: rgb(146, 191, 220);
+    font-weight: 600;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+#comments >div time {
+    color: #ccc;
+    font-size: .5rem
+}
+
+#comments >div p {
+    margin-bottom: 1rem;
+}
+
+#comments >div {
+    margin: 1.5rem 0;
+}
+
+#postcomment {
+    margin-bottom: 5rem;
+}
+
+#comments >h4 {
+    line-height: 2rem;
+    font-size: 1.5rem;
+    color: #6bc30d;
+    /*border-bottom: 1px solid */
+}
+
+#postcomment textarea {
+    outline: 0;
+    width: 100%;
+    resize: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+    box-shadow: 1px -1px 2px #ccc, 3px 0px 2px #ccc, -3px -2px 2px #ccc, 6px 2px 2px #ccc;
+}
+
+#postcomment input[type="submit"],
+#postcon input[type="submit"],.login button {
+    outline: 0;
+    width: 6rem;
+    height: 2.5rem;
+    border-radius: 5px;
+    background-color: #6bc30d;
+    color: #eee;
+    float: right;
+    cursor: pointer;
+}
+
+#postcon {
+    width: 85%;
+    margin: 0 auto;
+    padding: 2rem;
+    margin-bottom: 10rem;
+}
+
+#postcon p {
+    margin: 1rem;
+}
+
+#postcon p label {
+    color: rgb(146, 191, 220);
+    font-weight: 600;
+}
+
+#postcon p input {
+    margin: 1rem 0;
+    outline: 0;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    height: 1.5rem;
+}
+
+#postcon p textarea {
+    margin: 1rem 0;
+    outline: 0;
+    resize: none;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    font-size: 1.2rem;
+    box-shadow: 1px -1px 2px #ccc, 3px 0px 2px #ccc, -3px -2px 2px #ccc, 7px 2px 2px #ccc;
+}
+
+.archive li {
+    list-style: none;
+    line-height: 2.5rem;
+}
+
+.archive h3 {
+    margin: 1rem;
+    line-height: 2.5rem;
+    font-size: 2.5rem;
+    color: #6bc30d;
+}
+
+.archive time {
+    float: left;
+    font-size: 1rem;
+    color: #999999;
+    margin-right: 1.2em;
+}
+
+.archive a {
+    color: rgb(146, 191, 220);
+    font-weight: 600;
+    text-decoration: none;
+    font-size:1.5rem;
+}
+.login{
+    box-shadow: 1px -1px 2px #ccc, 3px 0px 2px #ccc, -3px -2px 2px #ccc, 7px 2px 2px #ccc;
+    width: 48%;
+    margin: 8rem auto;
+ 
+    padding: 1rem 1rem 4rem 1rem;
+}
+.login label{
+     color: rgb(146, 191, 220);
+    font-weight: 600;
+   
+
+}
+.login input{
+      width: 25rem;
+    height: 1.7rem;
+    border-radius: 3px;
+    outline: 0;
+    border: 1px solid #ccc;
+   
+}
+.login p{
+ margin: 1.6rem
+   
 }

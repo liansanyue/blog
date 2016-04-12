@@ -5,6 +5,7 @@ var mongodb=require('../models/db');
 var marked = require('marked');
 var hightlight=require('highlight.js');
 var markdownString = '```js\n console.log("hello"); \n```';
+ var select={"name":1,"time":1,"title":1,"summary":1,"comments":1,"pv":1,"tags":1,"like":1};
 marked.setOptions({
     highlight: function (code, lang, callback) {
         require('pygmentize-bundled')({ lang: lang, format: 'html' }, code, function (err, result) {
@@ -24,7 +25,8 @@ function Post(name,title,tags,post){
     this.name=name;
     this.title=title;
     this.post=post;
-    this.tags=tags
+    this.tags=tags;
+    this.summary=post.substr(0,100);
 }
 module.exports=Post;
 Post.prototype.save= function (callback) {
@@ -39,17 +41,22 @@ Post.prototype.save= function (callback) {
         second:date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate())+" "+date.getHours()+":"+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes())+":"+(date.getSeconds()<10?'0'+date.getSeconds():date.getSeconds())
 
     }
+    var second=date.getTime();
     //要存入数据库的文档
     var post={
         name:this.name,
         time:time,
+        second:second,
         title:this.title,
+         summary:this.summary,
         post:this.post,
         tags:this.tags,
         comments:[],//评论
-        pv:0
+        pv:0,
+        like:0
 
     };
+   
     //打开数据库
     mongodb.open(function (err,db){
         if(err){
@@ -92,7 +99,7 @@ Post.getAll=function(name,callback){
                 query.name=name;
             }
             //根据query对象查询文章
-            collection.find(query).sort({time:-1}).toArray(function(err,docs){
+            collection.find(query,select).sort({second:-1}).toArray(function(err,docs){
                 mongodb.close();
                 if(err){
                     return callback(err);
@@ -135,7 +142,8 @@ Post.getOne=function(name,day,title,callback){
 
 
                 }
-                doc.post=marked(doc.post);
+                if(doc){doc.post=marked(doc.post);}
+                
                 console.log(doc)
                 callback(null,doc);
             });
@@ -160,17 +168,23 @@ Post.getTen=function(name,page,callback){
                 query.name=name;
             }
             collection.count(query,function(err,total){
-                collection.find(query,{
+                collection.find(query,select,{
                     skip:(page-1)*5,//跳过指定数量的数据
                     limit:5
-                }).sort({time:-1}).toArray(function(err,docs){
+                }).sort({second:-1}).toArray(function(err,docs){
                     mongodb.close();
                     if(err){
                         return callback(err);
                     }
+               /*     docs.sort(function(x,y){
+                        if(x.time.second>y.time.second)
+                        return 1;
+                        else
+                            return -1;
+                    })*/
                     docs.forEach(function(doc,index){
 
-                        doc.post=marked(doc.post);
+                        doc.summary=marked(doc.summary);
                     })
                     callback(null,docs,total);
                 });
@@ -194,7 +208,7 @@ Post.getArchive=function(callback){
             }
 
 
-            collection.find({},{"name":1,"time":1,"title":1}).sort({time:-1}).toArray(function(err,docs){
+            collection.find({},{"name":1,"time":1,"title":1}).sort({second:-1}).toArray(function(err,docs){
                 mongodb.close();
                 if(err){
                     return callback(err);
@@ -255,7 +269,7 @@ Post.getTag=function(tag,callback){
                     "name":1,
                     "time":1,
                     "title":1
-                }).sort({time:-1}).toArray(function(err,docs){
+                }).sort({second:-1}).toArray(function(err,docs){
                     mongodb.close();
                     if(err){
                         return callback(err);
@@ -308,8 +322,9 @@ Post.update=function(name,day,title,tags,post,callback){
                 return callback(err);
             }
             //将文档插入posts集合
+            var summary=post.substr(0,100)
             collection.update({"name":name,"time.date":day,"title":title},{
-                $set:{post:post,tags:tags}
+                $set:{post:post,tags:tags,summary:summary}
             }, function (err) {
                 mongodb.close();
                 if(err){
@@ -363,7 +378,7 @@ Post.search=function(keyword,callback){
                 "name":1,
                 "time":1,
                 "title":1
-            }).sort({time:-1}).toArray(function (err,docs) {
+            }).sort({second:-1}).toArray(function (err,docs) {
                 mongodb.close();
                 if(err){
                     return callback(err);

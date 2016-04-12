@@ -1,5 +1,7 @@
-<%- include header %>
-<p class="info">
+<%- include blog %>
+<article>
+<h3 class="posttitle"><%= posts.title %></h3>
+<p class="instructions">
     <% if(user&&(user.name==posts.name)) { %>
     <span><a class="edit" href="/edit/<%= posts.name %>/<%= posts.time.date %>/<%=posts.title %>">编辑</a></span>
     <span><a class="edit" href="/remove/<%= posts.name %>/<%= posts.time.date %>/<%=posts.title %>">删除</a></span>
@@ -15,5 +17,6 @@
     <% }) %>
 </p>
 <p ><%- posts.post %></p>
+    </article>
 <%- include comment %>
 <%- include footer %>

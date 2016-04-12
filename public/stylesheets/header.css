@@ -4,7 +4,7 @@
 }
 @font-face {
     font-family: 'story';
-    src: url('/fonts/story.ttf');
+    src: url('/icon/fonts/HYXiaoMaiTiJ.ttf');
 
 }
 body,html{
@@ -53,4 +53,8 @@ nav a:hover {
     border-bottom: .2rem solid #000;
     color:#ccc;
 
+}
+#username{
+  font-family: 'story';
+    font-size: 1.2rem;
 }

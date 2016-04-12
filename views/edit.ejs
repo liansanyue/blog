@@ -1,12 +1,39 @@
-<%- include header %>
-<form method="post">
-    标题：<br/>
-    <input type="text" name="title" value="<%= posts.title %>" disabled/><br/>
-    标签：<br/>
+<%- include blog %>
+<form method="post" id="postcon">
+   <p><label for="name">标题：</label> 
+   	<input type="text" name="title" value="<%= posts.title %>" disabled/></p>
+   <p> <label>标签：</label> 
     <input type="text" name="tag1" value="<%= posts.tags[0] %>" /> <input type="text" name="tag2" value="<%= posts.tags[1] %>"/>
-    <input type="text" name="tag3" value="<%= posts.tags[2] %>"/><br/>
-    正文：<br/>
-    <textarea name="post" rows="20" cols="100"><%=posts.post %></textarea><br/>
+    <input type="text" name="tag3" value="<%= posts.tags[2] %>"/></p>
+   <p><label>正文：</label><br/>
+   	<textarea name="post" rows="20" cols="100"><%=posts.post %></textarea></p>
     <input type="submit" value="发表"/>
 </form>
+<script type="text/javascript">
+(function(){
+var form=document.getElementById('postcon');
+form.onsubmit=function(){
+
+var inputs=form.getElementsByTagName('input');
+var textarea=form.getElementsByTagName('textarea')[0];
+// var isOk=inputs.every(function(input,index){
+// 	if(input.value.trim()!="")return true;
+// 	else {return false}
+// })
+if(inputs[0].value.trim()==""){
+	alert("标题内容不能为空！");
+    return false;
+}
+if(textarea.value.trim()==""){
+    alert("输入内容不能为空！");
+    return false;
+}
+
+return true;
+
+}
+})()
+
+
+</script>
 <%- include footer %>

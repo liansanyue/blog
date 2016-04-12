@@ -10,7 +10,7 @@
     Tags：
     <% post.tags.forEach(function(tag,index) { %>
     <% if(tag){ %>
-    <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>
+    <a  href="/tags/<%= tag %>"><%= tag %></a>
     <% }else{ %>
     -<% } %>
     <% }) %>
@@ -20,10 +20,10 @@
 	<p class="title"><span class="icon-tag"></span><a href="/u/<%= post.name %>/<%= post.time.date %>/<%=post.title %>"><%=post.title %></a></p>
 
 <div class="summary">
- <p ><%- post.post %></p>
+ <p ><%- post.summary %></p>
 	</div>
 </div>
-    <div class="chat"><p><span class="icon-heart-o"></span>0</p><p><span class="icon-eye"></span>0</p><p><span class="icon-bubble2"></span>0</p></div>
+    <div class="chat"><p><span class="icon-heart-o"></span><%= post.like %></p><p><span class="icon-eye"></span><%= post.pv %></p><p><span class="icon-bubble2"></span><%= post.comments.length %></p></div>
     <span class="co1"></span>
     <span class="co2"></span>
 </div>
