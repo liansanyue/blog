@@ -1,7 +1,7 @@
 #content {
-    width: 75%;
-    min-width: 900px;
-    margin: 0 auto;
+    width: 100%;
+    /*min-width: 900px;*/
+    margin: 10px;
     height: 100%;
 }
 
@@ -62,7 +62,7 @@
 
 .title {
     margin: 1rem 0;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
 }
 
 .title .icon-tag {
@@ -229,8 +229,8 @@ article .posttitle {
 }
 
 #comments {
-    width: 85%;
-    margin: 0 auto;
+    width: 90%;
+
 }
 
 #comments >div a {
@@ -273,7 +273,7 @@ article .posttitle {
     box-shadow: 1px -1px 2px #ccc, 3px 0px 2px #ccc, -3px -2px 2px #ccc, 6px 2px 2px #ccc;
 }
 
-#postcomment input[type="submit"],
+#postcomment input[type="button"],
 #postcon input[type="submit"],.login button {
     outline: 0;
     width: 6rem;
@@ -304,7 +304,7 @@ article .posttitle {
 #postcon p input {
     margin: 1rem 0;
     outline: 0;
-    border-radius: 2px;
+    border-radius: 5px;
     border: 1px solid #ccc;
     height: 1.5rem;
 }
@@ -369,4 +369,8 @@ article .posttitle {
 .login p{
  margin: 1.6rem
    
+}
+#content article {
+    width: 90%;
+    padding: 20px;
 }

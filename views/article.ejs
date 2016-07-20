@@ -1,5 +1,40 @@
 <%- include blog %>
-<article>
+<div id="maincon">
+    <nav id="navindex">
+        <div>
+            <ul class="ul-left">
+                <li><a   href="/">主页</a></li>
+                <li><a   href="/archive">存档</a></li>
+                <li><a   href="/tags">标签</a></li>
+                <% if(!user){ %>
+            </ul>
+            <ul class="ul-right">
+                <li><a  class="tag-button"  href="/login">登录</a></li>
+                <li><a  class="tag-button" href="/reg">注册</a></li>
+            </ul>
+            <% }else{ %>
+            <li><a   href="/post">发表</a></li>
+            <!--<li><a   href="/upload">上传</a></li>-->
+            </ul>
+            <ul class="ul-right">
+                <% if(name) { %>
+                <li id="username"><a href="/u/<%= name %>"><%= name %></a></li>
+                <% } %>
+                <li ><a class="tag-button"  href="/logout">退出</a></li>
+                </li>
+
+            </ul>
+            <% } %>
+
+        </div>
+    </nav>
+    <div id="content">
+
+        <% if(error){ %>
+        <div><%=error %></div>
+        <% } %>
+<article  data-id="<%=posts._id%>">
+
 <h3 class="posttitle"><%= posts.title %></h3>
 <p class="instructions">
     <% if(user&&(user.name==posts.name)) { %>
@@ -16,7 +51,7 @@
     <% } %>
     <% }) %>
 </p>
-<p ><%- posts.post %></p>
+<p><%-posts.post%></p>
     </article>
 <%- include comment %>
 <%- include footer %>

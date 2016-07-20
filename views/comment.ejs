@@ -1,47 +1,86 @@
 <br/>
 <div id="comments">
-<form method="post" id="postcomment">
+<div id="postcomment" data-url="/u/<%=posts.name%>/<%=posts.time.date%>/<%=posts.title%>">
     <% if(user){ %>
-   <input type="text" name="name" value="<%=user.name %>"  /><br/>
-   <input type="email" name="email" value="<%=user.email %>" /><br/>
-   <input type="text" name="website" value="/u/<%=user.name %>" /><br/>
+   <input type="hidden" name="name" value="<%=user.name %>"  /><br/>
+   <input type="hidden" name="email" value="<%=user.email %>" /><br/>
+   <input type="hidden" name="website" value="/u/<%=user.name %>" /><br/>
    <textarea name="content" rows="4"  ></textarea><br/>
-    <input type="submit" value="留言"/>
+    <input type="button" value="留言"/>
     <% }else { %>
     <textarea  rows="5" cols="80" disabled>请先登录</textarea><br/>
-    <input  type="submit" value="留言" disabled />
+    <input  type="button" value="留言" disabled />
     <%  } %>
     
 
-</form>
+</div>
 
 <h4>读者评论</h4>
+    <div id="comm">
 <% if(posts.comments.length==0){ %>
-    <p>暂时没有评论~~~</p><br/>
-<% }else{ %>
+    <p class="noneComment">暂时没有评论~~~</p><br/>
+<% }else{ posts.comments.reverse();%>
 <% posts.comments.forEach(function(comment,index) { %>
-<div >
-<p><a href="<%=comment.website %>"><%= comment.name %></a>
-<time ><%= comment.time %></time></p>
-<p><%-comment.content %></p>
-    <% }) %></div>
+<div class="comentdiv">
+<p><a href="<%=comment.website %>"><%=comment.name %></a>
+<time ><%=comment.time %></time></p>
+<p><%-comment.content %></p></div>
+    <% }) %>
     <% } %>
+    </div>
 </div>
+<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
 <script type="text/javascript">
 (function(){
-var form=document.getElementById('postcomment');
-form.onsubmit=function(){
-var textarea=form.getElementsByTagName('textarea')[0];
+    var form=document.getElementById('postcomment');
+    var button=form.querySelector("input[type=button]");
 
-if(textarea.value.trim()==""){
-    alert("输入内容不能为空！");
-    return false;
-}
-else{
- return true;   
-}
+    button.addEventListener("click",function(){
+    var textarea=form.getElementsByTagName('textarea')[0];
 
-}
+    if(textarea.value.trim()==""){
+        alert("输入内容不能为空！");
+        return ;
+    }
+    else{
+        $.ajax({
+            type:"post",
+            url:form.getAttribute("data-url"),
+            data:{
+                _id:$("article").attr("data-id"),
+              name:$("input[name=name]").val(),
+              email:$("input[name=email]").val(),
+              website:$("input[name=website]").val(),
+              content:$("textarea[name=content]").val()
+
+            },
+            dataType:"json",
+            success: function (comments) {
+
+                var html="";
+               for(var i=comments.length-1;i>=0;i--){
+                   html+="<div class='comentdiv'><p><a href='"+comments[i].website+"'>"+comments[i].name+"</a><time >"+comments[i].time+"</time></p><p>"+comments[i].content+"</p></div>"
+
+               }
+
+//               msg.forEach(function (comment,index) {
+//
+//                 html+="<div class='comentdiv'><p><a href='"+comment.website+"'>"+comment.name+"</a><time >"+comment.time+"</time></p><p>"+comment.content+"</p></div>"
+//
+//               });
+                $("textarea[name=content]").val("");
+                alert("评论成功！")
+                $("#comm").html(html);
+            },
+            error:function(e){
+                console.log(e)
+            }
+        })
+
+
+    }
+
+});
 })()
 
 </script>

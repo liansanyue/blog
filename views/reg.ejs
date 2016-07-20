@@ -1,35 +1,94 @@
 <%- include blog %>
-<form method="post" class="login" id="reg">
+<div id="maincon">
+	<nav id="navindex">
+		<div>
+			<ul class="ul-left">
+				<li><a   href="/">主页</a></li>
+				<li><a   href="/archive">存档</a></li>
+				<li><a   href="/tags">标签</a></li>
+				<% if(!user){ %>
+			</ul>
+			<ul class="ul-right">
+				<li><a  class="tag-button"  href="/login">登录</a></li>
+				<li><a  class="tag-button" href="/reg"  style="color:#e15782">注册</a></li>
+			</ul>
+			<% }else{ %>
+			<li><a   href="/post">发表</a></li>
+			<!--<li><a   href="/upload">上传</a></li>-->
+			</ul>
+			<ul class="ul-right">
+				<% if(name) { %>
+				<li id="username"><a href="/u/<%= name %>"><%= name %></a></li>
+				<% } %>
+				<li ><a class="tag-button"  href="/logout">退出</a></li>
+				</li>
+
+			</ul>
+			<% } %>
+
+		</div>
+	</nav>
+	<div id="content">
+
+		<% if(error){ %>
+		<div><%=error %></div>
+		<% } %>
+
+<div  class="login" id="reg">
 	<p><label for="name">Username:</label><br/><input id="name"type="text" name="name" required/></p>
 	<p> <label for="password">password:</label><br/><input id="password" type="password" name="password" required/></p>
 	<p><label for="password-repeat">Confirm password：<br/></label><input id="password-repeat" type="password" name="password-repeat" required/></p>
 	<p><label for="email">Email：<br/></label><input id="email" type="email" name="email" required/></p>
 
 
-    <button type="submit">Register</button>
+    <button type="button">Register</button>
 
-</form>
+</div>
 <script type="text/javascript">
 (function(){
-var form=document.getElementById('reg');
-var inputs=form.getElementsByTagName('input');
-var array_inputs= Array.prototype.slice.call(inputs); 
+	var form=document.getElementById('reg');
+	var button=form.querySelector("button");
+	var username=form.querySelector("#name");
+	var password=form.querySelector("#password");
+	var password_repeat=form.querySelector("#password-repeat");
+	var email=form.querySelector("#email");
+	button.addEventListener("click", function () {
+		if(username.value.trim().length==0){
+			alert("用户名不能为空");
+			return ;
+		}else if(password.value.trim().length==0||password_repeat.value.trim().length==0){
+			alert("密码不能为空");
+			return ;
+		}else if(email.value.trim().length==0){
+			alert("邮箱不能为空");
+			return ;
+		}
+		if(password.value.trim()!==password_repeat.value.trim()){
+			alert("两次密码不一致");
+			return ;
+		}
+		var data=new FormData();
+		data.append("name",username.value);
+		data.append("password",password.value);
+		data.append("password-repeat",password_repeat.value);
+		data.append("email",email.value);
+		xhr=new XMLHttpRequest();
+		xhr.open("post","/reg",true);
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState==4){
+				var obj=JSON.parse(xhr.responseText);
+				if(!obj.isOk){
+					alert(obj.content);
+				}else{
+					alert(obj.content);
+					location.href="/"
+				}
 
-form.onsubmit=function(){
+			}
+		}
+		xhr.send(data);
+	})
 
-var isOk=array_inputs.every(function(input,index,array){
-	if(input.value.trim()!="")return true;
-	else {return false}
-})
-if(!isOk){
-	alert("不能为空！");
-    return false;
-}
-
-
-return true;
-
-}
 })()
 
 

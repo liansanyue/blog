@@ -144,7 +144,7 @@ Post.getOne=function(name,day,title,callback){
                 }
                 if(doc){doc.post=marked(doc.post);}
                 
-                console.log(doc)
+
                 callback(null,doc);
             });
 
@@ -214,7 +214,7 @@ Post.getArchive=function(callback){
                     return callback(err);
                 }
 
-                console.log(docs)
+
                 callback(null,docs);
             });
 

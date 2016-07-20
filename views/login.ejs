@@ -1,31 +1,79 @@
 <%- include blog %>
-<form method="post" class="login" id="login">
-	<p> <label for="name">Username：</label><input id="name"type="text" name="name" required/></p>
-	<p><label for="password">Password：</label><input id="password" type="password" name="password" required/></p>
-    <button type="submit">Submit</button>
+<div id="maincon">
+	<nav id="navindex">
+		<div>
+			<ul class="ul-left">
+				<li><a   href="/">主页</a></li>
+				<li><a   href="/archive">存档</a></li>
+				<li><a   href="/tags">标签</a></li>
+				<% if(!user){ %>
+			</ul>
+			<ul class="ul-right">
+				<li><a  class="tag-button"  style="color:#e15782" href="/login">登录</a></li>
+				<li><a  class="tag-button" href="/reg">注册</a></li>
+			</ul>
+			<% }else{ %>
+			<li><a   href="/post">发表</a></li>
+			<!--<li><a   href="/upload">上传</a></li>-->
+			</ul>
+			<ul class="ul-right">
+				<% if(name) { %>
+				<li id="username"><a href="/u/<%= name %>"><%= name %></a></li>
+				<% } %>
+				<li ><a class="tag-button"  href="/logout">退出</a></li>
+				</li>
 
-</form>
+			</ul>
+			<% } %>
+
+		</div>
+	</nav>
+	<div id="content">
+
+
+
+<div  class="login" id="login">
+	<p> <label for="name">Username：</label><input id="name" type="text" name="name" /></p>
+	<p><label for="password">Password：</label><input id="password" type="password" name="password" /></p>
+    <button type="button">Submit</button>
+
+</div>
 <script type="text/javascript">
 (function(){
 var form=document.getElementById('login');
-var inputs=form.getElementsByTagName('input');
-var array_inputs= Array.prototype.slice.call(inputs); 
-console.log(Array.isArray(array_inputs))
-form.onsubmit=function(){
+var button=form.querySelector("button");
+var username=form.querySelector("#name");
+var password=form.querySelector("#password");
 
-var isOk=array_inputs.every(function(input,index,array){
-	if(input.value.trim()!="")return true;
-	else {return false}
-})
-if(!isOk){
-	alert("不能为空！");
-    return false;
-}
+	button.addEventListener("click", function () {
+		if(username.value.trim().length==0){
+			alert("用户名不能为空");
+			return ;
+		}
+		if(password.value.trim().length==0){
+			alert("密码不能为空");
+			return ;
+		}
+		var data=new FormData();
+		data.append("name",username.value);
+		data.append("password",password.value);
+	 xhr=new XMLHttpRequest();
+		xhr.open("post","/login",true);
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState==4){
+              var obj=JSON.parse(xhr.responseText);
+				if(!obj.isOk){
+					alert(obj.content);
+				}else{
+					alert(obj.content);
+					location.href="/"
+				}
 
+			}
+		}
+		xhr.send(data);
+	})
 
-return true;
-
-}
 })()
 
 

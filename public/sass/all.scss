@@ -1,0 +1,73 @@
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/layout";
+@import "compass/typography";
+@import "compass/utilities";
+@font-face
+{
+  font-family: pilowww;
+  src: url('../fonts/piloww.TTF'),
+  url('../fonts/piloww.TTF'); /* IE9 */
+}
+$mainWidth:1000px;
+$navfontSize:14px;
+$navHeight:50px;
+#maincon{
+  width: $mainWidth;
+  margin: 0 auto;
+  overflow: hidden;
+}
+a{
+  text-decoration: none;
+}
+
+#navindex{
+  width: 100%;
+  //font-family: "Microsoft YaHei";
+  background: #ffffff;
+  height:$navHeight;
+  font-size: $navfontSize;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  div{
+    float: right;
+  }
+  .ul-left,.ul-right{
+    @include inline-block;
+    height: $navHeight;
+    li{
+      float: left;
+      line-height: $navHeight;
+      padding: 0 15px;
+      a{
+        @include link-colors(#777, #e15782, #777, #777, #777);
+
+      }
+      a.tag-button {
+        //padding: 7px 10px;
+        //background: #a8e14e;
+        //border: 1px solid #a8e15d;
+        //color: #fff;
+        //@include border-radius(5px);
+        color:  #92bfdc;
+        @include transition(all ease 0.5s)
+      }
+      a.tag-button:hover{
+        color: #5fb0dc;
+
+      }
+    }
+
+  }
+  .ul-left{
+    margin-right: 10px;
+    //border-right: 1px solid #eee;
+  }
+  .ul-right{
+    #username{
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+}

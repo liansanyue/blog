@@ -1,32 +1,67 @@
 <%- include blog %>
+<div id="maincon">
+    <nav id="navindex">
+        <div>
+            <ul class="ul-left">
+                <li><a   href="/">主页</a></li>
+                <li><a   href="/archive">存档</a></li>
+                <li><a   href="/tags">标签</a></li>
+                <% if(!user){ %>
+            </ul>
+            <ul class="ul-right">
+                <li><a  class="tag-button"  href="/login">登录</a></li>
+                <li><a  class="tag-button" href="/reg">注册</a></li>
+            </ul>
+            <% }else{ %>
+            <li><a   href="/post"  style="color:#e15782">发表</a></li>
+            <!--<li><a   href="/upload">上传</a></li>-->
+            </ul>
+            <ul class="ul-right">
+                <% if(name) { %>
+                <li id="username"><a href="/u/<%= name %>"><%= name %></a></li>
+                <% } %>
+                <li ><a class="tag-button"  href="/logout">退出</a></li>
+                </li>
+
+            </ul>
+            <% } %>
+
+        </div>
+    </nav>
+    <div id="content">
+
+        <% if(error){ %>
+        <div><%=error %></div>
+        <% } %>
+
 <form method="post" id="postcon">
 	<p><label for="name">标题：</label> 
-   <input type="text" name="title" id="name" required/></p>
+   <input type="text" name="title" id="name" required/><span style="color:#92bfdc">*必填项</span></p>
    <p> <label>标签：</label> 
    	<input type="text" name="tag1"/> <input type="text" name="tag2"/> <input type="text" name="tag3"/></p>
-    <p><label>正文：</label><br/>
+    <p><label>正文(支持Markdown)：</label><span style="color:#92bfdc">*必填项</span><br/>
     	<textarea name="post" rows="20" cols="100"></textarea></p>
     <input type="submit" value="发表"/>
 </form>
 <script type="text/javascript">
 (function(){
 var form=document.getElementById('postcon');
-form.onsubmit=function(){
+form.addEventListener("submit",function(){
 
-var inputs=form.getElementsByTagName('input');
-var textarea=form.getElementsByTagName('textarea')[0];
-if(inputs[0].value.trim()==""){
-	alert("标题内容不能为空！");
-    return false;
-}
-if(textarea.value.trim()==""){
-    alert("输入内容不能为空！");
-    return false;
-}
+    var inputs=form.getElementsByTagName('input');
+    var textarea=form.getElementsByTagName('textarea')[0];
+    if(inputs[0].value.trim()==""){
+        alert("标题内容不能为空！");
+        return false;
+    }
+    if(textarea.value.trim()==""){
+        alert("输入内容不能为空！");
+        return false;
+    }
 
-return true;
+    return true;
 
-}
+});
 })()
 
 

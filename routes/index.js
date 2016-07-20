@@ -18,7 +18,7 @@ module.exports=function (app){
     res.render('blog')
   })
   app.get("/",function(req,res){
-    console.log(req.connection.remoteAddress);
+    //console.log(req.connection.remoteAddress);
     var page=req.query.p?parseInt(req.query.p):1;
     Post.getTen(null,page,function(err,posts,total){
       if(err){
@@ -48,15 +48,17 @@ module.exports=function (app){
   });
   app.post('/reg',checkNotLogin);
   app.post("/reg",function(req,res){
-
+    var result={};
     var name=req.body.name.trim()==""? req.body.email:req.body.name.trim();
         password=req.body.password,
         password_re=req.body['password-repeat'];
     //检验用户两次输入的密码是否一致
 
     if(password_re!=password){
-      req.flash('error','两次输入的密码不一致');
-      return res.redirect('/res');//返回注册页
+      result.isOk=false;
+      result.content="两次密码不一致";
+      res.send(JSON.stringify(result));
+      return ;
     }
     //生成密码的MD5值
 
@@ -73,11 +75,12 @@ module.exports=function (app){
      if(err){
         req.flash('error',err);
         return res.redirect('/')
-      } console.log(user.length);
-      if(user.length>19){
-       
-        req.flash('error','你已经注册过20个用户啦')
-       return res.redirect('/reg');//返回注册页
+      } //console.log(user.length);
+      if(user.length>100){
+        result.isOk=false;
+        result.content="注册次数过多！";
+        res.send(JSON.stringify(result));
+        return ;
       }
 
     User.get(newUser.name,function(err,user){
@@ -87,8 +90,10 @@ module.exports=function (app){
       }
       if(user){
 
-        req.flash('error','用户已经存在')
-       return res.redirect('/reg');//返回注册页
+        result.isOk=false;
+        result.content="用户已存在";
+        res.send(JSON.stringify(result));
+        return ;
       }
     
       //如果不存在则新增用户
@@ -99,8 +104,10 @@ module.exports=function (app){
         }
         req.session.username=newUser.name;
         req.session.user=user;
-        req.flash('success','注册成功');
-        res.redirect('/');
+        result.isOk=true;
+        result.content="注册成功";
+        res.send(JSON.stringify(result));
+        return ;
 
       });
     });
@@ -118,6 +125,8 @@ module.exports=function (app){
   });
   app.post('/login',checkNotLogin);
   app.post("/login",function(req,res){
+
+    var result={};
     //生成密码MD5的值
     var md5=crypto.createHash('md5'),
         password=md5.update(req.body.password).digest('hex');
@@ -129,17 +138,32 @@ module.exports=function (app){
     });
     User.get(newUser.name,function(err,user) {
       if (!user) {
-        req.flash('error', '用户不存在');
-        return res.redirect('/login')
+        //req.flash('error', '用户不存在');
+        //return res.redirect('/login')
+        result.isOk=false;
+        result.content="用户不存在";
+        res.send(JSON.stringify(result));
+        return ;
       }
+      console.log(user)
       if(user.password!=password){
-        req.flash('error','密码错误');
-        return res.redirect('/login');
+        //req.flash('error','密码错误');
+        //return res.redirect('/login');
+        result.isOk=false;
+        result.content="密码错误";
+        res.send(JSON.stringify(result));
+
+        return ;
       }
       req.session.username=newUser.name;
       req.session.user=user;
-      req.flash('success','登陆成功');
-      res.redirect('/');
+      //req.flash('success','登陆成功');
+      //res.redirect('/');
+      result.isOk=true;
+      result.content="登陆成功";
+      res.send(JSON.stringify(result));
+
+      return ;
     })
   });
   app.get('/post',checkLogin);
@@ -227,7 +251,7 @@ app.get('/archive',function(req,res){
         req.flash('error',err);
         return res.redirect('/');
       }
-    console.log(posts)
+
       res.render("archive",{title:"Tags:"+req.params.tag,
 
         user:req.session.user,
@@ -290,6 +314,7 @@ app.get("/u/:name",function(req,res){
         if(posts){
 
         res.render('article',{
+
           title:user.name,
           name:req.session.username,
           posts:posts,
@@ -305,6 +330,7 @@ app.get("/u/:name",function(req,res){
     })
   })
   app.post("/u/:name/:day/:title",function(req,res){
+
     var date=new Date(),
         time=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate())+" "+date.getHours()+":"+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
     var comment={
@@ -315,14 +341,29 @@ app.get("/u/:name",function(req,res){
       content:req.body.content
     }
 
-    var newComment=new Comment(req.params.name,req.params.day,req.params.title,comment);
+    var newComment=new Comment(req.body._id,comment);
     newComment.save(function (err) {
       if(err){
-        req.flash('error',err);
-        return res.redirect('back');
+        console.log("no")
+        res.send("no");
+        return ;
+        //req.flash('error',err);
+        //return res.redirect('back');
       }
-      req.flash('success','留言成功！');
-      res.redirect('back')
+      Comment.getOne(req.body._id, function (err,docs) {
+        if(err){
+          console.log("no2")
+          res.send("no2");
+          return ;
+        }
+
+        res.send(docs.comments);
+        return ;
+      })
+
+
+      //req.flash('success','留言成功！');
+      //res.redirect('back')
 
     })
 
